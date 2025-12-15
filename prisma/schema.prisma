@@ -1,0 +1,48 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Grupo {
+  id            String         @id @default(cuid())
+  nome          String
+  descricao     String?
+  adminToken    String         @unique @default(cuid())
+  criadoEm      DateTime       @default(now())
+  sorteado      Boolean        @default(false)
+  participantes Participante[]
+  sorteios      Sorteio[]
+}
+
+model Participante {
+  id       String    @id @default(cuid())
+  nome     String
+  telefone String
+  codigo   String    @unique
+  grupoId  String
+  grupo    Grupo     @relation(fields: [grupoId], references: [id], onDelete: Cascade)
+  sorteios Sorteio[] @relation("Sorteador")
+  tirado   Sorteio?  @relation("Sorteado")
+}
+
+model Sorteio {
+  id          String       @id @default(cuid())
+  grupoId     String
+  grupo       Grupo        @relation(fields: [grupoId], references: [id], onDelete: Cascade)
+  sorteadorId String
+  sorteador   Participante @relation("Sorteador", fields: [sorteadorId], references: [id])
+  sorteadoId  String       @unique
+  sorteado    Participante @relation("Sorteado", fields: [sorteadoId], references: [id])
+  revelado    Boolean      @default(false)
+  reveladoEm  DateTime?
+}
