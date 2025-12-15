@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { Shuffle, Users, CheckCircle2, Clock, Copy, ExternalLink, AlertCircle, Send } from 'lucide-react';
-import { env } from '../../../lib/env';
+
 // Simulando dados que viriam do servidor
 interface Participante {
   id: string;
@@ -46,7 +46,7 @@ export default function PainelAdmin() {
   const [copiado, setCopiado] = useState<string | null>(null);
   const [reenviando, setReenviando] = useState<string | null>(null);
 
-  const linkParticipantes = `{env.NEXT_PUBLIC_BASE_URL}/grupo/${grupo?.id}`;
+  const linkParticipantes = `${process.env.NEXT_PUBLIC_BASE_URL}/grupo/${grupo?.id}`;
   const revelados = grupo?.participantes.filter(p => p.revelado).length ?? 0;
   const total = grupo?.participantes.length ?? 0;
 
