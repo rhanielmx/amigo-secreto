@@ -5,7 +5,7 @@ const envSchema = z.object({
   DATABASE_URL: z.string().url(),
   
   // App
-  NEXT_PUBLIC_BASE_URL: z.string().url(),
+  NEXT_PUBLIC_BASE_URL: z.string().url().optional(),
   
   // Twilio
   TWILIO_ACCOUNT_SID: z.string().min(1),
@@ -17,9 +17,14 @@ const envSchema = z.object({
 });
 
 const parseEnv = () => {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ||
+    (process.env.VERCEL_URL 
+      ? `https://${process.env.VERCEL_URL}`
+      : 'http://localhost:3000');
+
   const parsed = envSchema.safeParse({
     DATABASE_URL: process.env.DATABASE_URL,
-    NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,
+    NEXT_PUBLIC_BASE_URL: baseUrl,
     TWILIO_ACCOUNT_SID: process.env.TWILIO_ACCOUNT_SID,
     TWILIO_AUTH_TOKEN: process.env.TWILIO_AUTH_TOKEN,
     TWILIO_PHONE_NUMBER: process.env.TWILIO_PHONE_NUMBER,
