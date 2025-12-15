@@ -47,8 +47,8 @@ export default function PainelAdmin() {
   const [reenviando, setReenviando] = useState<string | null>(null);
 
   const linkParticipantes = `https://seusite.com/grupo/${grupo?.id}`;
-  const revelados = grupo?.participantes.filter(p => p.revelado).length;
-  const total = grupo?.participantes.length;
+  const revelados = grupo?.participantes.filter(p => p.revelado).length ?? 0;
+  const total = grupo?.participantes.length ?? 0;
 
   const copiarTexto = (texto: string, id: string) => {
     navigator.clipboard.writeText(texto);

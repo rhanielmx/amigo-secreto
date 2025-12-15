@@ -25,7 +25,7 @@ export async function POST(
 
     // Se participanteIds for fornecido, filtra; senão envia para todos
     const participantesParaEnviar = participanteIds
-      ? grupo.participantes.filter(p => participanteIds.includes(p.id))
+      ? grupo.participantes.filter((p: any) => participanteIds.includes(p.id))
       : grupo.participantes;
 
     if (participantesParaEnviar.length === 0) {

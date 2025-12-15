@@ -19,7 +19,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Sorteio já realizado' }, { status: 400 });
     }
 
-    const ids = grupo.participantes.map(p => p.id);
+    const ids = grupo.participantes.map((p: any) => p.id);
     const resultado = realizarSorteio(ids);
 
     if (!resultado) {
@@ -27,7 +27,7 @@ export async function POST(request: Request) {
     }
 
     await prisma.$transaction([
-      ...Array.from(resultado.entries()).map(([sorteadorId, sorteadoId]) =>
+      ...Array.from(resultado.entries()).map(([sorteadorId, sorteadoId]: [string, string]) =>
         prisma.sorteio.create({
           data: {
             grupoId: grupo.id,

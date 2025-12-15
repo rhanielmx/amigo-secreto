@@ -50,13 +50,14 @@ export async function POST(
 
     // Criar as relações de amigo secreto na tabela Sorteio
     await Promise.all(
-      participantesEmbaralhados.map((p, index) => {
+      participantesEmbaralhados.map((p: any, index: number) => {
         const proximoIndex = (index + 1) % participantesEmbaralhados.length;
+        const proximoParticipante = participantesEmbaralhados[proximoIndex] as any;
         return prisma.sorteio.create({
           data: {
             grupoId: grupo.id,
             sorteadorId: p.id,
-            sorteadoId: participantesEmbaralhados[proximoIndex].id,
+            sorteadoId: proximoParticipante.id,
           },
         });
       })

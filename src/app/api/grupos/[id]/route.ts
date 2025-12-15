@@ -3,7 +3,7 @@ import { prisma } from '@/lib/prisma';
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { id } = await params;
@@ -36,8 +36,8 @@ export async function GET(
     }
 
     // Mapear participantes com o campo revelado vindo da tabela Sorteio
-    const participantesComRevelado = grupo.participantes.map(p => {
-      const sorteio = grupo.sorteios.find(s => s.sorteadorId === p.id);
+    const participantesComRevelado = grupo.participantes.map((p: any) => {
+      const sorteio = grupo.sorteios.find((s: any) => s.sorteadorId === p.id);
       return {
         ...p,
         revelado: sorteio?.revelado || false,

@@ -46,7 +46,7 @@ export async function POST(request: Request) {
       adminUrl: `${env.NEXT_PUBLIC_BASE_URL}/admin/${grupo.adminToken}`,
       participantesUrl: `${env.NEXT_PUBLIC_BASE_URL}/grupo/${grupo.id}`,
       smsResultado,
-      participantes: grupo.participantes.map(p => ({
+      participantes: grupo.participantes.map((p: any) => ({
         nome: p.nome,
         codigo: p.codigo,
         telefone: p.telefone,
